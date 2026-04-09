@@ -10,3 +10,5 @@ odoo.conf
 .vscode/
 __pycache__/
 *.pyc
+
+venv/
