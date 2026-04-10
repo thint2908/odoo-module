@@ -6,6 +6,7 @@ class TodoTask(models.Model):
     _description = 'Todo Task'
 
     name = fields.Char(string='Task Name', required=True)
+    description = fields.Html(string='Description')
     is_done = fields.Boolean(string='Is Done', default=False)
     created_at = fields.Datetime(
         string='Created At', 

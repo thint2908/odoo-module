@@ -4,13 +4,14 @@
     <field name="name">todo.task.list</field> <field name="model">todo.task</field>
     <field name="arch" type="xml">
         <list decoration-danger="is_overdue == True" 
-				decoration-muted="is_done == True">
+				decoration-success="is_done == True">
             
             <field name="name" />
             <field name="created_at" />
             <field name="due_date" />
             <field name="is_done" widget="boolean_toggle"/>
             <field name="is_overdue" column_invisible="True"/>
+            <field name="description" placeholder="Add details about this task..."/>
         </list>
     </field>
 </record>
