@@ -1,0 +1,33 @@
+<odoo>
+    <!-- List view -->
+    <record id="view_todo_task_list" model="ir.ui.view">
+    <field name="name">todo.task.list</field> <field name="model">todo.task</field>
+    <field name="arch" type="xml">
+        <list decoration-danger="is_overdue == True" 
+				decoration-muted="is_done == True">
+            
+            <field name="name" />
+            <field name="created_at" />
+            <field name="due_date" />
+            <field name="is_done" widget="boolean_toggle"/>
+            <field name="is_overdue" column_invisible="True"/>
+        </list>
+    </field>
+</record>
+
+<record id="action_todo_task" model="ir.actions.act_window">
+    <field name="name">Todo Tasks</field>
+    <field name="res_model">todo.task</field>
+    <field name="view_mode">list,form</field>
+</record>
+<menuitem id="menu_todo_root" 
+		name="Todo App" 
+		web_icon="base,static/description/icon.png" 
+		sequence="10"/>
+
+<menuitem id="menu_todo_task" 
+		name="My Tasks" 
+		parent="menu_todo_root" 
+		action="action_todo_task" 
+		sequence="10"/>
+</odoo>
