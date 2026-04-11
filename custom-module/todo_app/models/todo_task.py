@@ -15,6 +15,7 @@ class TodoTask(models.Model):
     )
     due_date = fields.Date(string='Due Date')
     is_overdue = fields.Boolean(compute='_compute_is_overdue', string='Is Overdue')
+    remaining_time = fields.Char(compute="_compute_remaining_time", string="Remaining")
 
     @api.depends('due_date', 'is_done')
     def _compute_is_overdue(self):
@@ -24,3 +25,20 @@ class TodoTask(models.Model):
                 record.is_overdue = True
             else:
                 record.is_overdue = False
+                
+    @api.depends("due_date", "is_done")
+    def _compute_remaining_time(self):
+        today = date.today()
+        for record in self:
+            if record.is_done:
+                record.remaining_time = "Completed"
+            elif not record.due_date:
+                record.remaining_time = "No Deadline"
+            else:
+                diff = (record.due_date - today).days
+                if diff > 0:
+                    record.remaining_time = f"{diff} days"
+                if diff == 0:
+                    record.remaining_time = "Today!"
+                else:
+                    record.remaining_time = f"Overdue({diff} days)"

@@ -3,12 +3,12 @@
     <record id="view_todo_task_list" model="ir.ui.view">
     <field name="name">todo.task.list</field> <field name="model">todo.task</field>
     <field name="arch" type="xml">
-        <list decoration-danger="is_overdue == True" 
-				decoration-success="is_done == True">
+        <list>
             
-            <field name="name" />
+            <field name="name" decoration-success="is_done == True" decoration-bf="is_done == True" decoration-danger="is_overdue == True" />
             <field name="created_at" />
-            <field name="due_date" />
+            <field name="due_date" widget="remaining_days"/>
+            <field name="remaining_time"/>
             <field name="is_done" widget="boolean_toggle"/>
             <field name="is_overdue" column_invisible="True"/>
             <field name="description" placeholder="Add details about this task..."/>
