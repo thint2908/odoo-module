@@ -2,18 +2,19 @@ from odoo import models, fields, api
 from datetime import date
 
 class TodoTask(models.Model):
+    # _inherit = ['mail.thread', 'mail.activity.mixin']
     _name = 'todo.task'
     _description = 'Todo Task'
 
-    name = fields.Char(string='Task Name', required=True)
-    description = fields.Html(string='Description')
-    is_done = fields.Boolean(string='Is Done', default=False)
+    name = fields.Char(string='Task Name', required=True, tracking=True)
+    description = fields.Html(string='Description', tracking= True)
+    is_done = fields.Boolean(string='Is Done', default=False, tracking= True)
     created_at = fields.Datetime(
         string='Created At', 
         default=lambda self: fields.Datetime.now(),
         readonly=True
     )
-    due_date = fields.Date(string='Due Date')
+    due_date = fields.Date(string='Due Date', tracking= True)
     is_overdue = fields.Boolean(compute='_compute_is_overdue', string='Is Overdue')
     remaining_time = fields.Char(compute="_compute_remaining_time", string="Remaining")
 

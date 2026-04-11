@@ -3,7 +3,7 @@
     'version': '18.0.1.0.0',
     'category': 'Productivity',
     'summary': 'Simple Todo Application',
-    'depends': ['base'],
+    'depends': ['base', 'mail'],
     'data': [
         'security/ir.model.access.csv',
         'views/todo_task_views.xml',
