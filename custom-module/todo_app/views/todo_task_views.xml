@@ -6,7 +6,7 @@
         <field name="name">todo.task.list</field> <field name="model">todo.task</field>
         <field name="arch" type="xml">
             <list>
-                
+                <field name="user_id" widget="many2one_avatar_user"/>
                 <field name="name" decoration-success="is_done == True" decoration-bf="is_done == True" decoration-danger="is_overdue == True" />
                 <field name="created_at" />
                 <field name="due_date" widget="remaining_days"/>
@@ -44,6 +44,24 @@
                                 <div>
                                     <span t-if="record.is_overdue.raw_value" class="badge rounded-pill text-bg-danger">Overdue</span>
                                     <span t-if="record.is_done.raw_value" class="badge rounded-pill text-bg-success">Done</span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click d-flex flex-column">
+                            <div class="fw-bold fs-5 mb-2">
+                                <field name="name"/>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center mt-auto">
+                                <div class="text-muted small">
+                                    <i class="fa fa-calendar me-1"/>
+                                    <field name="due_date"/>
+                                </div>
+                                
+                                <div class="oe_kanban_bottom_right">
+                                    <field name="user_id" widget="many2one_avatar_user"/>
                                 </div>
                             </div>
                         </div>

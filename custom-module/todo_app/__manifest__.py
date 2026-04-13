@@ -5,6 +5,7 @@
     'summary': 'Simple Todo Application',
     'depends': ['base', 'mail'],
     'data': [
+        'security/todo_task_security.xml',
         'security/ir.model.access.csv',
         'views/todo_task_views.xml',
     ],
