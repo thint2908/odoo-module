@@ -14,14 +14,14 @@ class TodoTask(models.Model):
     )
     
     name = fields.Char(string='Task Name', required=True, tracking=True)
-    description = fields.Html(string='Description', tracking= True)
+    description = fields.Html(string='Description')
     # is_done = fields.Boolean(string='Is Done', default=False, group_expand='_read_group_is_done', tracking= True)
     created_at = fields.Datetime(
         string='Created At', 
         default=lambda self: fields.Datetime.now(),
         readonly=True
     )
-    due_date = fields.Date(string='Due Date', tracking= True)
+    due_date = fields.Date(string='Due Date', tracking=True)
     is_overdue = fields.Boolean(compute='_compute_is_overdue', string='Is Overdue')
     remaining_time = fields.Char(compute="_compute_remaining_time", string="Remaining")
     priority = fields.Selection([
@@ -29,13 +29,13 @@ class TodoTask(models.Model):
         ('1', 'Medium'),
         ('2', 'High'),
         ('3', 'Very High'),
-    ], string='Priority', default='0')
+    ], string='Priority', default='0', tracking=True)
     
     state = fields.Selection([
         ('todo', 'To Do'),
         ('doing', 'In Progress'),
         ('done', "Completed")
-    ], string="Status", default='todo', Tracking=True, group_expand='_read_group_states')
+    ], string="Status", default='todo', tracking=True, group_expand='_read_group_states')
     
     @api.model
     def _read_group_states(self, stages, domain):
