@@ -2,7 +2,7 @@ from odoo import models, fields, api
 from datetime import date
 
 class TodoTask(models.Model):
-    # _inherit = ['mail.thread', 'mail.activity.mixin']
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _name = 'todo.task'
     _description = 'Todo Task'
     
@@ -15,7 +15,7 @@ class TodoTask(models.Model):
     
     name = fields.Char(string='Task Name', required=True, tracking=True)
     description = fields.Html(string='Description', tracking= True)
-    is_done = fields.Boolean(string='Is Done', default=False, group_expand='_read_group_is_done', tracking= True)
+    # is_done = fields.Boolean(string='Is Done', default=False, group_expand='_read_group_is_done', tracking= True)
     created_at = fields.Datetime(
         string='Created At', 
         default=lambda self: fields.Datetime.now(),
@@ -31,24 +31,38 @@ class TodoTask(models.Model):
         ('3', 'Very High'),
     ], string='Priority', default='0')
     
+    state = fields.Selection([
+        ('todo', 'To Do'),
+        ('doing', 'In Progress'),
+        ('done', "Completed")
+    ], string="Status", default='todo', Tracking=True, group_expand='_read_group_states')
+    
     @api.model
-    def _read_group_is_done(self, stages, domain):
-        return [False, True]
+    def _read_group_states(self, stages, domain):
+        return ['todo', 'doing', 'done']
 
-    @api.depends('due_date', 'is_done')
+    @api.depends('due_date', 'state')
     def _compute_is_overdue(self):
         today = date.today()
         for record in self:
-            if record.due_date and record.due_date < today and not record.is_done:
+            if record.due_date and record.due_date < today and record.state != 'done':
                 record.is_overdue = True
             else:
                 record.is_overdue = False
+    # @api.depends('due_date', 'is_done')
+    # def _compute_is_overdue(self):
+    #     today = date.today()
+    #     for record in self:
+    #         if record.due_date and record.due_date < today and not record.is_done:
+    #             record.is_overdue = True
+    #         else:
+    #             record.is_overdue = False
                 
-    @api.depends("due_date", "is_done")
+    @api.depends("due_date", "state")
     def _compute_remaining_time(self):
         today = date.today()
         for record in self:
-            if record.is_done:
+            if record.state == 'done':
                 record.remaining_time = "Completed"
             elif not record.due_date:
                 record.remaining_time = "No Deadline"
