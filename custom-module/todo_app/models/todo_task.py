@@ -47,7 +47,7 @@ class TodoTask(models.Model):
         now = fields.Datetime.now()
         # today = date.today()
         for record in self:
-            if record.due_date and record.due_date < now:
+            if record.state != 'done' and record.due_date and record.due_date < now:
                 record.is_overdue = True
             else:
                 record.is_overdue = False

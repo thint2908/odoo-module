@@ -25,29 +25,40 @@
 						   widget="priority" />
 					<field name="is_overdue"
 						   column_invisible="True" />
-				</list>
-			</field>
-		</record>
-
-		<record id="view_todo_task_kanban"
+						</list>
+					</field>
+				</record>
+				
+				<record id="view_todo_task_kanban"
 				model="ir.ui.view">
-			<field name="name">todo.task.kanban</field>
-			<field name="model">todo.task</field>
-			<field name="arch"
-				   type="xml">
+				<field name="name">todo.task.kanban</field>
+				<field name="model">todo.task</field>
+				<field name="arch"
+				type="xml">
 				<kanban default_group_by="state"
-						class="o_kanban_small_column"
-						records_draggable="true">
-					<field name="state" />
-					<field name="is_overdue" />
+				class="o_kanban_small_column"
+				records_draggable="true">
+				<field name="state" />
+				<field name="is_overdue" />
+				<field name="write_date" />
 					<templates>
 						<t t-name="card">
 							<div class="oe_kanban_global_click d-flex flex-column">
 								<div class="fw-bold fs-5 mb-2 d-flex justify-content-between align-items-start">
-									<field name="name" />
-									<span t-if="record.is_overdue.raw_value"
-										  t-attf-class="badge rounded-pill #{record.state.raw_value == 'done' ? 'text-bg-secondary' : 'text-bg-danger'} ms-2">
-										Overdue</span>
+									<field name="name" class="mr-2"/>
+									<!-- <span t-if="record.is_overdue.raw_value"
+										  t-attf-class="badge rounded-pill #{record.state.raw_value == 'done' ? 'text-bg-warning' :
+									'text-bg-danger'} ms-2">
+										Overdue</span> -->
+									<span t-if="record.state.raw_value != 'done' and record.is_overdue.raw_value"
+										  class="badge rounded-pill text-bg-danger ms-2 flex-shrink-0">
+										Overdue
+									</span>
+
+									<span t-if="record.state.raw_value == 'done' and record.due_date.raw_value and record.due_date.raw_value &lt; record.write_date.raw_value"
+										  class="badge rounded-pill text-bg-warning ms-2 flex-shrink-0">
+										Late
+									</span>
 								</div>
 								<div class="d-flex justify-content-between align-items-center mt-auto">
 									<div class="d-flex align-items-center gap-2">
