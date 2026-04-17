@@ -79,12 +79,13 @@ class TodoTask(models.Model):
                 diff = record.due_date - now
                 days = diff.days
                 seconds = diff.seconds
+                minutes = seconds // 60
                 hours = seconds // 3600
 
                 if diff.total_seconds() > 0:
                     if days > 0:
                         record.remaining_time = f"{days}d {hours}h left"
                     else:
-                        record.remaining_time = f"{hours}h left"
+                        record.remaining_time = f"{hours}h:{minutes}m:{seconds % 60}s"
                 else:
                     record.remaining_time = "Overdue!"
