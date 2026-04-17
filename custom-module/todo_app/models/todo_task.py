@@ -1,10 +1,24 @@
 from odoo import models, fields, api
 from datetime import date
 
+
+class TodoTag(models.Model):
+    _name="todo.tag"
+    _description = "Todo tag"
+    
+    name = fields.Char(string='name', required=True)
+    color = fields.Integer(string='Color')
+
 class TodoTask(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _name = 'todo.task'
     _description = 'Todo Task'
+    
+    tag_ids = fields.Many2many(
+        'todo.tag',
+        strings="Tags",
+        help="Classify your tasks using tags."
+    )
     
     user_id = fields.Many2one(
         'res.users',

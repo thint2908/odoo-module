@@ -13,6 +13,9 @@
 						   widget="many2one_avatar_user" />
 					<field name="name"
 						   decoration-bf="state == 'doing'" />
+					<field name="tag_ids"
+						   widget="many2many_tags"
+						   options="{'color_field': 'color'}" />
 					<field name="state"
 						   widget="badge"
 						   decoration-info="state == 'todo'"
@@ -25,31 +28,38 @@
 						   widget="priority" />
 					<field name="is_overdue"
 						   column_invisible="True" />
-						</list>
-					</field>
-				</record>
-				
-				<record id="view_todo_task_kanban"
+				</list>
+			</field>
+		</record>
+
+		<record id="view_todo_task_kanban"
 				model="ir.ui.view">
-				<field name="name">todo.task.kanban</field>
-				<field name="model">todo.task</field>
-				<field name="arch"
-				type="xml">
+			<field name="name">todo.task.kanban</field>
+			<field name="model">todo.task</field>
+			<field name="arch"
+				   type="xml">
 				<kanban default_group_by="state"
-				class="o_kanban_small_column"
-				records_draggable="true">
-				<field name="state" />
-				<field name="is_overdue" />
-				<field name="write_date" />
+						class="o_kanban_small_column"
+						records_draggable="true">
+					<field name="state" />
+					<field name="is_overdue" />
+					<field name="write_date" />
+					<field name="tag_ids" />
 					<templates>
 						<t t-name="card">
 							<div class="oe_kanban_global_click d-flex flex-column">
 								<div class="fw-bold fs-5 mb-2 d-flex justify-content-between align-items-start">
-									<field name="name" class="mr-2"/>
+									<field name="name"
+										   class="mr-2" />
 									<!-- <span t-if="record.is_overdue.raw_value"
 										  t-attf-class="badge rounded-pill #{record.state.raw_value == 'done' ? 'text-bg-warning' :
 									'text-bg-danger'} ms-2">
 										Overdue</span> -->
+									<div class="mb-2">
+										<field name="tag_ids"
+											   widget="many2many_tags"
+											   options="{'color_field': 'color'}" />
+									</div>
 									<span t-if="record.state.raw_value != 'done' and record.is_overdue.raw_value"
 										  class="badge rounded-pill text-bg-danger ms-2 flex-shrink-0">
 										Overdue
@@ -105,6 +115,9 @@
 							<group>
 								<field name="user_id"
 									   widget="many2one_avatar_user" />
+								<field name="tag_ids"
+									   widget="many2many_tags"
+									   options="{'color_field': 'color', 'no_create_edit': True}" />
 								<field name="priority"
 									   widget="priority" />
 							</group>
@@ -141,6 +154,19 @@
 				  parent="menu_todo_root"
 				  action="action_todo_task"
 				  sequence="10" />
+
+		<record id="action_todo_tag"
+				model="ir.actions.act_window">
+			<field name="name">Tags</field>
+			<field name="res_model">todo.tag</field>
+			<field name="view_mode">list,form</field>
+		</record>
+
+		<menuitem id="menu_todo_tag"
+				  name="Tags"
+				  parent="menu_todo_root"
+				  action="action_todo_tag"
+				  sequence="20" />
 	</data>
 </odoo>
 
