@@ -7,6 +7,7 @@
     'data': [
         'security/todo_task_security.xml',
         'security/ir.model.access.csv',
+        'data/todo_tag_data.xml',
         'views/todo_task_views.xml',
     ],
     'installable': True,
