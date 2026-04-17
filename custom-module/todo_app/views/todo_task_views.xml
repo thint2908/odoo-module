@@ -151,9 +151,11 @@
 					<filter string="My Tasks"
 							name="my_tasks"
 							domain="[('user_id', '=', uid)]" />
+					<separator />
 					<filter string="In Progress"
 							name="doing"
 							domain="[('state', '=', 'doing')]" />
+					<separator />
 					<filter string="Overdue"
 							name="overdue"
 							domain="[('is_overdue', '=', True)]" />
