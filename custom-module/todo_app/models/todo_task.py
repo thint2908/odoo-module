@@ -37,7 +37,7 @@ class TodoTask(models.Model):
     )
     due_date = fields.Datetime(string='Due Date', tracking=True)
     # due_date = fields.Date(string='Due Date', tracking=True)
-    is_overdue = fields.Boolean(compute='_compute_is_overdue', string='Is Overdue')
+    is_overdue = fields.Boolean(compute='_compute_is_overdue', string='Is Overdue', store=True)
     remaining_time = fields.Char(compute="_compute_remaining_time", string="Remaining")
     priority = fields.Selection([
         ('0', 'Low'),

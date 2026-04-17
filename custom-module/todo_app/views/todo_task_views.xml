@@ -136,12 +136,59 @@
 				</form>
 			</field>
 		</record>
+		<record id="view_todo_task_search"
+				model="ir.ui.view">
+			<field name="name">todo.task.search</field>
+			<field name="model">todo.task</field>
+			<field name="arch"
+				   type="xml">
+				<search>
+					<field name="name"
+						   string="Task Name" />
+					<field name="user_id" />
+					<field name="tag_ids" />
+
+					<filter string="My Tasks"
+							name="my_tasks"
+							domain="[('user_id', '=', uid)]" />
+					<filter string="In Progress"
+							name="doing"
+							domain="[('state', '=', 'doing')]" />
+					<filter string="Overdue"
+							name="overdue"
+							domain="[('is_overdue', '=', True)]" />
+
+					<separator />
+					<filter string="Todo"
+							name="todo"
+							domain="[('state', '=', 'todo')]" />
+					<filter string="Completed"
+							name="done"
+							domain="[('state', '=', 'done')]" />
+
+					<group expand="0"
+						   string="Group By">
+						<filter string="Assignee"
+								name="group_user"
+								context="{'group_by': 'user_id'}" />
+						<filter string="Status"
+								name="group_state"
+								context="{'group_by': 'state'}" />
+						<filter string="Due Date"
+								name="group_due_date"
+								context="{'group_by': 'due_date'}" />
+					</group>
+				</search>
+			</field>
+		</record>
 
 		<record id="action_todo_task"
 				model="ir.actions.act_window">
 			<field name="name">Todo Tasks</field>
 			<field name="res_model">todo.task</field>
 			<field name="view_mode">kanban,list,form</field>
+			<field name="search_view_id" ref="view_todo_task_search"></field>
+			<field name="context">{'search_default_my_tasks': 1}</field>
 		</record>
 
 		<menuitem id="menu_todo_root"
