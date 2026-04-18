@@ -1,5 +1,6 @@
 from odoo import models, fields, api
 from datetime import date
+from odoo.exceptions import ValidationError
 
 
 class TodoTag(models.Model):
@@ -50,7 +51,31 @@ class TodoTask(models.Model):
         ('todo', 'To Do'),
         ('doing', 'In Progress'),
         ('done', "Completed")
-    ], string="Status", default='todo', tracking=True, group_expand='_read_group_states')
+    ], string="Status", default='todo', required=True, tracking=True, group_expand='_read_group_states')
+    
+    parent_id = fields.Many2one(
+        'todo.task',
+        string='Parent task',
+        index=True,
+        onedelete='cascade'
+    )
+    
+    child_ids = fields.One2many(
+        'todo.task',
+        'parent_id',
+        string='Sub-task'
+    )
+    
+    subtask_count = fields.Integer(
+        compute='_compute_subtask_count',
+        string='Sub-task Count',
+        store=True
+    )
+    
+    @api.depends('child_ids')
+    def _compute_subtask_count(self):
+        for record in self:
+            record.subtask_count = len(record.child_ids)
     
     @api.model
     def _read_group_states(self, stages, domain):
@@ -89,3 +114,14 @@ class TodoTask(models.Model):
                         record.remaining_time = f"{hours}h:{minutes}m:{seconds % 60}s"
                 else:
                     record.remaining_time = "Overdue!"
+                    
+    @api.constrains('parent_id', 'child_ids')
+    def _check_subtask_level(self):
+        for record in self:
+            # 1. Chặn không cho Sub-task đi nhận thêm Sub-task (Chặn cấp 3 từ dưới lên)
+            if record.parent_id and record.parent_id.parent_id:
+                raise ValidationError("Odoo Todo App only supports 2 levels of tasks!")
+            
+            # 2. Chặn không cho một thằng đang là Cha đi làm con thằng khác (Chặn cấp 3 từ trên xuống)
+            if record.parent_id and record.child_ids:
+                raise ValidationError("This task already has sub-tasks. It cannot be assigned to a parent!")

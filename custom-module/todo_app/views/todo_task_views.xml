@@ -1,319 +1,253 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-	<data>
-		<record id="view_todo_task_list"
-				model="ir.ui.view">
-			<field name="name">todo.task.list</field>
-			<field name="model">todo.task</field>
-			<field name="arch"
-				   type="xml">
-				<list decoration-danger="is_overdue == True"
-					  decoration-muted="state == 'done'">
-					<field name="user_id"
-						   widget="many2one_avatar_user" />
-					<field name="name"
-						   decoration-bf="state == 'doing'" />
-					<field name="tag_ids"
-						   widget="many2many_tags"
-						   options="{'color_field': 'color'}" />
-					<field name="state"
-						   widget="badge"
-						   decoration-info="state == 'todo'"
-						   decoration-warning="state == 'doing'"
-						   decoration-success="state == 'done'" />
-					<field name="due_date"
-						   widget="remaining_days" />
-					<field name="remaining_time" />
-					<field name="priority"
-						   widget="priority" />
-					<field name="is_overdue"
-						   column_invisible="True" />
-				</list>
-			</field>
-		</record>
+	<record id="view_todo_task_list"
+			model="ir.ui.view">
+		<field name="name">todo.task.list</field>
+		<field name="model">todo.task</field>
+		<field name="arch"
+			   type="xml">
+			<list decoration-danger="is_overdue == True"
+				  decoration-muted="state == 'done'">
+				<field name="user_id"
+					   widget="many2one_avatar_user" />
+				<field name="name"
+					   decoration-bf="state == 'doing'" />
+				<field name="tag_ids"
+					   widget="many2many_tags"
+					   options="{'color_field': 'color'}" />
+				<field name="state"
+					   widget="badge"
+					   decoration-info="state == 'todo'"
+					   decoration-warning="state == 'doing'"
+					   decoration-success="state == 'done'" />
+				<field name="due_date"
+					   widget="remaining_days" />
+				<field name="remaining_time" />
+				<field name="priority"
+					   widget="priority" />
+				<field name="is_overdue"
+					   column_invisible="True" />
+			</list>
+		</field>
+	</record>
 
-		<record id="view_todo_task_kanban"
-				model="ir.ui.view">
-			<field name="name">todo.task.kanban</field>
-			<field name="model">todo.task</field>
-			<field name="arch"
-				   type="xml">
-				<kanban default_group_by="state"
-						class="o_kanban_small_column"
-						records_draggable="true">
-					<field name="state" />
-					<field name="is_overdue" />
-					<field name="write_date" />
-					<field name="tag_ids" />
-					<templates>
-						<t t-name="card">
-							<div class="oe_kanban_global_click d-flex flex-column">
-								<div class="fw-bold fs-5 mb-2 d-flex justify-content-between align-items-start">
+	<record id="view_todo_task_kanban"
+			model="ir.ui.view">
+		<field name="name">todo.task.kanban</field>
+		<field name="model">todo.task</field>
+		<field name="arch"
+			   type="xml">
+			<kanban default_group_by="state"
+					class="o_kanban_small_column"
+					records_draggable="true">
+				<field name="state" />
+				<field name="is_overdue" />
+				<field name="write_date" />
+				<field name="tag_ids" />
+				<templates>
+					<t t-name="card">
+						<div class="oe_kanban_global_click d-flex flex-column">
+							<div class="fw-bold fs-5 mb-2 d-flex justify-content-between align-items-start">
+								<div class="d-flex flex-column">
 									<field name="name"
 										   class="mr-2" />
-									<!-- <span t-if="record.is_overdue.raw_value"
-										  t-attf-class="badge rounded-pill #{record.state.raw_value == 'done' ? 'text-bg-warning' :
-									'text-bg-danger'} ms-2">
-										Overdue</span> -->
-									<div class="mb-2">
-										<field name="tag_ids"
-											   widget="many2many_tags"
-											   options="{'color_field': 'color'}" />
-									</div>
+									<field name="tag_ids"
+										   widget="many2many_tags"
+										   options="{'color_field': 'color'}" />
+								</div>
+
+								<div class="d-flex flex-column align-items-end">
 									<span t-if="record.state.raw_value != 'done' and record.is_overdue.raw_value"
-										  class="badge rounded-pill text-bg-danger ms-2 flex-shrink-0">
+										  class="badge rounded-pill text-bg-danger flex-shrink-0">
 										Overdue
 									</span>
-
 									<span t-if="record.state.raw_value == 'done' and record.due_date.raw_value and record.due_date.raw_value &lt; record.write_date.raw_value"
-										  class="badge rounded-pill text-bg-warning ms-2 flex-shrink-0">
+										  class="badge rounded-pill text-bg-warning flex-shrink-0">
 										Late
 									</span>
 								</div>
-								<div class="d-flex justify-content-between align-items-center mt-auto">
-									<div class="d-flex align-items-center gap-2">
-										<div class="text-muted small">
-											<i class="fa fa-calendar me-1" />
-											<field name="due_date" />
-										</div>
-										<field name="state"
-											   widget="label_selection"
-											   options="{'classes': {'todo': 'default', 'doing': 'warning', 'done': 'success'}}" />
+							</div>
+							<div class="d-flex justify-content-between align-items-center mt-auto">
+								<div class="d-flex align-items-center gap-2">
+									<div class="text-muted small">
+										<i class="fa fa-calendar me-1" />
+										<field name="due_date" />
 									</div>
-									<div class="oe_kanban_bottom_right">
-										<field name="user_id"
-											   widget="many2one_avatar_user" />
-									</div>
+									<field name="state"
+										   widget="label_selection"
+										   options="{'classes': {'todo': 'default', 'doing': 'warning', 'done': 'success'}}" />
+								</div>
+								<div class="oe_kanban_bottom_right">
+									<field name="user_id"
+										   widget="many2one_avatar_user" />
+								</div>
+								<div t-if="record.subtask_count.raw_value"
+									 class="ms-2">
+									<i class="fa fa-sitemap me-1"
+									   title="Sub-task"></i>
+									<field name="subtask_count" />
 								</div>
 							</div>
-						</t>
-					</templates>
-				</kanban>
-			</field>
-		</record>
-
-		<record id="view_todo_task_form"
-				model="ir.ui.view">
-			<field name="name">todo.task.form</field>
-			<field name="model">todo.task</field>
-			<field name="arch"
-				   type="xml">
-				<form>
-					<header>
-						<field name="state"
-							   widget="statusbar"
-							   options="{'clickable': '1'}" />
-					</header>
-					<sheet>
-						<div class="oe_title">
-							<h1>
-								<field name="name"
-									   placeholder="Task Name..." />
-							</h1>
 						</div>
+					</t>
+				</templates>
+			</kanban>
+		</field>
+	</record>
+
+	<record id="view_todo_task_form"
+			model="ir.ui.view">
+		<field name="name">todo.task.form</field>
+		<field name="model">todo.task</field>
+		<field name="arch"
+			   type="xml">
+			<form>
+				<header>
+					<field name="state"
+						   widget="statusbar"
+						   options="{'clickable': '1'}" />
+				</header>
+				<sheet>
+					<div class="oe_title">
+						<h1>
+							<field name="name"
+								   placeholder="Task Name..." />
+						</h1>
+					</div>
+					<group>
 						<group>
-							<group>
-								<field name="user_id"
-									   widget="many2one_avatar_user" />
-								<field name="tag_ids"
-									   widget="many2many_tags"
-									   options="{'color_field': 'color', 'no_create_edit': True}" />
-								<field name="priority"
-									   widget="priority" />
-							</group>
-							<group>
-								<field name="due_date" />
-								<field name="created_at" />
-							</group>
+							<field name="user_id"
+								   widget="many2one_avatar_user" />
+							<field name="parent_id"
+								   invisible="subtask_count > 0"
+								   placeholder="Choose parent if this is a sub-task..." />
+							<field name="tag_ids"
+								   widget="many2many_tags"
+								   options="{'color_field': 'color', 'no_create_edit': True}" />
+							<field name="priority"
+								   widget="priority" />
+							<field name="subtask_count"
+								   invisible="1" />
 						</group>
-						<notebook>
-							<page string="Description">
-								<field name="description" />
-							</page>
-						</notebook>
-					</sheet>
-					<chatter />
-				</form>
-			</field>
-		</record>
-		<record id="view_todo_task_search"
-				model="ir.ui.view">
-			<field name="name">todo.task.search</field>
-			<field name="model">todo.task</field>
-			<field name="arch"
-				   type="xml">
-				<search>
-					<field name="name"
-						   string="Task Name" />
-					<field name="user_id" />
-					<field name="tag_ids" />
-
-					<filter string="My Tasks"
-							name="my_tasks"
-							domain="[('user_id', '=', uid)]" />
-					<separator />
-					<filter string="In Progress"
-							name="doing"
-							domain="[('state', '=', 'doing')]" />
-					<separator />
-					<filter string="Overdue"
-							name="overdue"
-							domain="[('is_overdue', '=', True)]" />
-
-					<separator />
-					<filter string="Todo"
-							name="todo"
-							domain="[('state', '=', 'todo')]" />
-					<filter string="Completed"
-							name="done"
-							domain="[('state', '=', 'done')]" />
-
-					<group expand="0"
-						   string="Group By">
-						<filter string="Assignee"
-								name="group_user"
-								context="{'group_by': 'user_id'}" />
-						<filter string="Status"
-								name="group_state"
-								context="{'group_by': 'state'}" />
-						<filter string="Due Date"
-								name="group_due_date"
-								context="{'group_by': 'due_date'}" />
-					</group>
-				</search>
-			</field>
-		</record>
-
-		<record id="action_todo_task"
-				model="ir.actions.act_window">
-			<field name="name">Todo Tasks</field>
-			<field name="res_model">todo.task</field>
-			<field name="view_mode">kanban,list,form</field>
-			<field name="search_view_id" ref="view_todo_task_search"></field>
-			<field name="context">{'search_default_my_tasks': 1}</field>
-		</record>
-
-		<menuitem id="menu_todo_root"
-				  name="Todo App"
-				  web_icon="base,static/description/icon.png"
-				  sequence="10" />
-
-		<menuitem id="menu_todo_task"
-				  name="My Tasks"
-				  parent="menu_todo_root"
-				  action="action_todo_task"
-				  sequence="10" />
-
-		<record id="action_todo_tag"
-				model="ir.actions.act_window">
-			<field name="name">Tags</field>
-			<field name="res_model">todo.tag</field>
-			<field name="view_mode">list,form</field>
-		</record>
-
-		<menuitem id="menu_todo_tag"
-				  name="Tags"
-				  parent="menu_todo_root"
-				  action="action_todo_tag"
-				  sequence="20" />
-	</data>
-</odoo>
-
-
-<!-- <?xml version="1.0" encoding="utf-8"?>
-<odoo>
-	<data>
-		<record id="view_todo_task_list"
-				model="ir.ui.view">
-			<field name="name">todo.task.list</field>
-			<field name="model">todo.task</field>
-			<field name="arch"
-				   type="xml">
-				<list>
-					<field name="user_id"
-						   widget="many2one_avatar_user" />
-					<field name="name"
-						   decoration-success="is_done == True"
-						   decoration-bf="is_done == True"
-						   decoration-danger="is_overdue == True" />
-					<field name="created_at" />
-					<field name="due_date"
-						   widget="remaining_days" />
-					<field name="remaining_time" />
-					<field name="is_done"
-						   widget="boolean_toggle" />
-					<field name="is_overdue"
-						   column_invisible="True" />
-					<field name="description"
-						   placeholder="Add details about this task..." />
-				</list>
-			</field>
-		</record>
-
-		<record id="view_todo_task_kanban"
-				model="ir.ui.view">
-			<field name="name">todo.task.kanban</field>
-			<field name="model">todo.task</field>
-			<field name="arch"
-				   type="xml">
-				<kanban default_group_by="is_done"
-						class="o_kanban_small_column"
-						records_draggable="true">
-					<field name="name" />
-					<field name="is_done" />
-					<field name="is_overdue" />
-					<field name="due_date" />
-
-					<templates>
-						<t t-name="card">
-							<div class="oe_kanban_global_click d-flex flex-column">
-								<div class="fw-bold fs-5 mb-2">
-									<field name="name" />
-								</div>
-
-								<div class="d-flex justify-content-between align-items-center mt-auto">
-									<div class="d-flex align-items-center gap-2">
-										<div class="text-muted small">
-											<i class="fa fa-calendar me-1" />
-											<field name="due_date" />
-										</div>
-
-										<span t-if="record.is_overdue.raw_value"
-											  class="badge rounded-pill text-bg-danger">
-											Overdue</span>
-										<span t-if="record.is_done.raw_value"
-											  class="badge rounded-pill text-bg-success">
-											Done</span>
-									</div>
-
-									<div class="oe_kanban_bottom_right">
+						<group>
+							<field name="due_date" />
+							<field name="created_at" />
+						</group>
+						<group>
+							<page string="Sub-tasks"
+								  invisible="parent_id != False">
+								<h3>Sub task</h3>
+								<field name="child_ids">
+									<list editable="bottom">
+										<field name="name" />
 										<field name="user_id"
 											   widget="many2one_avatar_user" />
-									</div>
-								</div>
-							</div>
-						</t>
-					</templates>
-				</kanban>
-			</field>
-		</record>
+										<field name="due_date" />
+										<field name="state"
+											   decoration-info="state == 'todo'"
+											   decoration-warning="state == 'doing'"
+											   decoration-success="state == 'done'" />
+									</list>
+								</field>
+							</page>
+						</group>
+					</group>
+					<notebook>
+						<page string="Description">
+							<field name="description" />
+						</page>
 
-		<record id="action_todo_task"
-				model="ir.actions.act_window">
-			<field name="name">Todo Tasks</field>
-			<field name="res_model">todo.task</field>
-			<field name="view_mode">kanban,list,form</field>
-		</record>
-		<menuitem id="menu_todo_root"
-				  name="Todo App"
-				  web_icon="base,static/description/icon.png"
-				  sequence="10" />
 
-		<menuitem id="menu_todo_task"
-				  name="My Tasks"
-				  parent="menu_todo_root"
-				  action="action_todo_task"
-				  sequence="10" />
+					</notebook>
+				</sheet>
+				<chatter />
+			</form>
+		</field>
+	</record>
+	<record id="view_todo_task_search"
+			model="ir.ui.view">
+		<field name="name">todo.task.search</field>
+		<field name="model">todo.task</field>
+		<field name="arch"
+			   type="xml">
+			<search>
+				<field name="name"
+					   string="Task Name" />
+				<field name="user_id" />
+				<field name="tag_ids" />
 
-	</data>
-</odoo> -->
+				<filter string="Main Tasks"
+						name="main_tasks"
+						domain="[('parent_id', '=', False)]" />
+				<separator />
+
+				<filter string="My Tasks"
+						name="my_tasks"
+						domain="[('user_id', '=', uid)]" />
+				<separator />
+				<filter string="In Progress"
+						name="doing"
+						domain="[('state', '=', 'doing')]" />
+				<separator />
+				<filter string="Overdue"
+						name="overdue"
+						domain="[('is_overdue', '=', True)]" />
+
+				<separator />
+				<filter string="Todo"
+						name="todo"
+						domain="[('state', '=', 'todo')]" />
+				<filter string="Completed"
+						name="done"
+						domain="[('state', '=', 'done')]" />
+
+				<group expand="0"
+					   string="Group By">
+					<filter string="Assignee"
+							name="group_user"
+							context="{'group_by': 'user_id'}" />
+					<filter string="Status"
+							name="group_state"
+							context="{'group_by': 'state'}" />
+					<filter string="Due Date"
+							name="group_due_date"
+							context="{'group_by': 'due_date'}" />
+				</group>
+			</search>
+		</field>
+	</record>
+
+	<record id="action_todo_task"
+			model="ir.actions.act_window">
+		<field name="name">Todo Tasks</field>
+		<field name="res_model">todo.task</field>
+		<field name="view_mode">kanban,list,form</field>
+		<field name="search_view_id"
+			   ref="view_todo_task_search"></field>
+		<field name="context">{'search_default_main_tasks': 1}</field>
+	</record>
+
+	<menuitem id="menu_todo_root"
+			  name="Todo App"
+			  web_icon="base,static/description/icon.png"
+			  sequence="10" />
+
+	<menuitem id="menu_todo_task"
+			  name="My Tasks"
+			  parent="menu_todo_root"
+			  action="action_todo_task"
+			  sequence="10" />
+
+	<record id="action_todo_tag"
+			model="ir.actions.act_window">
+		<field name="name">Tags</field>
+		<field name="res_model">todo.tag</field>
+		<field name="view_mode">list,form</field>
+	</record>
+
+	<menuitem id="menu_todo_tag"
+			  name="Tags"
+			  parent="menu_todo_root"
+			  action="action_todo_tag"
+			  sequence="20" />
+</odoo>
