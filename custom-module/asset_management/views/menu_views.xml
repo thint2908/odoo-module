@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Top Menu Item -->
+    <menuitem id="menu_asset_root"
+              name="Asset Management"
+              web_icon="base,static/description/icon.png"
+              sequence="50"/>
+
+    <!-- Sub Menu for Assets -->
+    <menuitem id="menu_asset_main"
+              name="Assets"
+              parent="menu_asset_root"
+              action="action_asset_management"
+              sequence="10"/>
+
+    <!-- Sub Menu for Configuration -->
+    <menuitem id="menu_asset_config"
+              name="Configuration"
+              parent="menu_asset_root"
+              groups="group_asset_manager"
+              sequence="100"/>
+
+    <!-- Menu for Categories -->
+    <menuitem id="menu_asset_category"
+              name="Asset Categories"
+              parent="menu_asset_config"
+              action="action_asset_category"
+              sequence="10"/>
+</odoo>
