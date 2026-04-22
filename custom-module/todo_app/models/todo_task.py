@@ -63,7 +63,7 @@ class TodoTask(models.Model):
     child_ids = fields.One2many(
         'todo.task',
         'parent_id',
-        string='Sub-task'
+        string='Sub task'
     )
     
     subtask_count = fields.Integer(

@@ -133,31 +133,25 @@
 							<field name="due_date" />
 							<field name="created_at" />
 						</group>
-						<group>
-							<page string="Sub-tasks"
-								  invisible="parent_id != False">
-								<h3>Sub task</h3>
-								<field name="child_ids">
-									<list editable="bottom">
-										<field name="name" />
-										<field name="user_id"
-											   widget="many2one_avatar_user" />
-										<field name="due_date" />
-										<field name="state"
-											   decoration-info="state == 'todo'"
-											   decoration-warning="state == 'doing'"
-											   decoration-success="state == 'done'" />
-									</list>
-								</field>
-							</page>
+						<group invisible="parent_id != False">
+							<field name="child_ids">
+								<list editable="bottom">
+									<field name="name" />
+									<field name="user_id"
+										   widget="many2one_avatar_user" />
+									<field name="due_date" />
+									<field name="state"
+										   decoration-info="state == 'todo'"
+										   decoration-warning="state == 'doing'"
+										   decoration-success="state == 'done'" />
+								</list>
+							</field>
 						</group>
 					</group>
 					<notebook>
 						<page string="Description">
 							<field name="description" />
 						</page>
-
-
 					</notebook>
 				</sheet>
 				<chatter />
