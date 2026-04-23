@@ -1,5 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_asset_category_user,asset.category.user,model_asset_category,group_asset_user,1,0,0,0
-access_asset_category_manager,asset.category.manager,model_asset_category,group_asset_manager,1,1,1,1
-access_asset_management_user,asset.management.user,model_asset_management,group_asset_user,1,0,0,0
-access_asset_management_manager,asset.management.manager,model_asset_management,group_asset_manager,1,1,1,1
