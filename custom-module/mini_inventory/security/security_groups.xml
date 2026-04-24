@@ -1,1 +1,26 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Category for grouping in Settings > Users -->
+        <record id="module_mini_inventory_category" model="ir.module.category">
+            <field name="name">Mini Inventory</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <!-- User group: can view and create, but not configure -->
+        <record id="group_mini_inventory_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="module_mini_inventory_category"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <!-- Manager group: full access including locations and config -->
+        <record id="group_mini_inventory_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="module_mini_inventory_category"/>
+            <field name="implied_ids" eval="[(4, ref('group_mini_inventory_user'))]"/>
+        </record>
+
+    </data>
+</odoo>

@@ -1,1 +1,207 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ===================== FORM VIEW ===================== -->
+    <record id="view_mini_picking_form" model="ir.ui.view">
+        <field name="name">mini_inventory.picking.form</field>
+        <field name="model">mini_inventory.picking</field>
+        <field name="arch" type="xml">
+            <form string="Picking">
+
+                <!--
+                    Header contains the statusbar and action buttons.
+                    Buttons are shown/hidden based on the current state
+                    using the 'invisible' attribute.
+                -->
+                <header>
+                    <!-- Confirm button: only visible when state is draft -->
+                    <button name="action_confirm"
+                            string="Confirm"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state != 'draft'"/>
+
+                    <!-- Validate button: only visible when state is confirmed -->
+                    <button name="action_validate"
+                            string="Validate"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state != 'confirmed'"/>
+
+                    <!-- Cancel button: visible in draft or confirmed -->
+                    <button name="action_cancel"
+                            string="Cancel"
+                            type="object"
+                            invisible="state not in ('draft', 'confirmed')"/>
+
+                    <!-- Reset to Draft: only when cancelled -->
+                    <button name="action_reset_to_draft"
+                            string="Reset to Draft"
+                            type="object"
+                            invisible="state != 'cancelled'"/>
+
+                    <!--
+                        statusbar_visible: which states appear in the progress bar.
+                        'done' and 'cancelled' are both terminal states.
+                    -->
+                    <field name="state"
+                           widget="statusbar"
+                           statusbar_visible="draft,confirmed,done"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group string="Operation">
+                            <!-- readonly after draft so user can't change type mid-flow -->
+                            <field name="picking_type"
+                                   readonly="state != 'draft'"/>
+                            <field name="date"/>
+                            <field name="date_done" readonly="1"
+                                   invisible="state != 'done'"/>
+                        </group>
+                        <group string="Locations">
+                            <field name="location_src_id"
+                                   readonly="state != 'draft'"/>
+                            <field name="location_dest_id"
+                                   readonly="state != 'draft'"/>
+                        </group>
+                    </group>
+
+                    <!-- Summary chips shown only when picking is done -->
+                    <group invisible="state != 'done'">
+                        <field name="move_count" readonly="1"/>
+                        <field name="total_qty" readonly="1"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Stock Moves">
+                            <!--
+                                Inline editable list (One2many).
+                                Rows are locked once picking is no longer draft.
+                            -->
+                            <field name="move_ids"
+                                   readonly="state != 'draft'">
+                                <list editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="name"/>
+                                    <field name="qty"/>
+                                    <field name="uom" readonly="1"/>
+                                    <field name="location_src_id"/>
+                                    <field name="location_dest_id"/>
+                                    <field name="state"
+                                           readonly="1"
+                                           widget="badge"
+                                           decoration-success="state == 'done'"
+                                           decoration-warning="state == 'draft'"
+                                           decoration-danger="state == 'cancelled'"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                            <field name="note" placeholder="Internal notes..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+
+    <!-- ===================== LIST VIEW ===================== -->
+    <record id="view_mini_picking_list" model="ir.ui.view">
+        <field name="name">mini_inventory.picking.list</field>
+        <field name="model">mini_inventory.picking</field>
+        <field name="arch" type="xml">
+            <list string="Pickings"
+                  decoration-muted="state == 'cancelled'"
+                  decoration-success="state == 'done'">
+                <field name="name"/>
+                <field name="picking_type"/>
+                <field name="location_src_id"/>
+                <field name="location_dest_id"/>
+                <field name="date"/>
+                <field name="move_count"/>
+                <field name="total_qty"/>
+                <field name="state"
+                       widget="badge"
+                       decoration-success="state == 'done'"
+                       decoration-warning="state in ('draft','confirmed')"
+                       decoration-danger="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ===================== SEARCH VIEW ===================== -->
+    <record id="view_mini_picking_search" model="ir.ui.view">
+        <field name="name">mini_inventory.picking.search</field>
+        <field name="model">mini_inventory.picking</field>
+        <field name="arch" type="xml">
+            <search string="Search Pickings">
+                <field name="name" string="Reference"/>
+                <filter string="Incoming" name="incoming"
+                        domain="[('picking_type','=','incoming')]"/>
+                <filter string="Outgoing" name="outgoing"
+                        domain="[('picking_type','=','outgoing')]"/>
+                <filter string="Internal" name="internal"
+                        domain="[('picking_type','=','internal')]"/>
+                <separator/>
+                <filter string="Draft" name="draft"
+                        domain="[('state','=','draft')]"/>
+                <filter string="Confirmed" name="confirmed"
+                        domain="[('state','=','confirmed')]"/>
+                <filter string="Done" name="done"
+                        domain="[('state','=','done')]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Operation Type" name="group_type"
+                            context="{'group_by': 'picking_type'}"/>
+                    <filter string="Status" name="group_state"
+                            context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ===================== ACTIONS (one per operation type) ===================== -->
+
+    <record id="action_mini_picking_all" model="ir.actions.act_window">
+        <field name="name">All Pickings</field>
+        <field name="res_model">mini_inventory.picking</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_mini_picking_search"/>
+    </record>
+
+    <record id="action_mini_picking_incoming" model="ir.actions.act_window">
+        <field name="name">Goods Receipts</field>
+        <field name="res_model">mini_inventory.picking</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('picking_type', '=', 'incoming')]</field>
+        <field name="context">{'default_picking_type': 'incoming'}</field>
+        <field name="search_view_id" ref="view_mini_picking_search"/>
+    </record>
+
+    <record id="action_mini_picking_outgoing" model="ir.actions.act_window">
+        <field name="name">Deliveries</field>
+        <field name="res_model">mini_inventory.picking</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('picking_type', '=', 'outgoing')]</field>
+        <field name="context">{'default_picking_type': 'outgoing'}</field>
+        <field name="search_view_id" ref="view_mini_picking_search"/>
+    </record>
+
+    <record id="action_mini_picking_internal" model="ir.actions.act_window">
+        <field name="name">Internal Transfers</field>
+        <field name="res_model">mini_inventory.picking</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('picking_type', '=', 'internal')]</field>
+        <field name="context">{'default_picking_type': 'internal'}</field>
+        <field name="search_view_id" ref="view_mini_picking_search"/>
+    </record>
+
+</odoo>

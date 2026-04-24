@@ -1,0 +1,53 @@
+<odoo>
+    <!-- Top menu -->
+    <menuitem id="menu_mini_inventory_root"
+              name="Mini Inventory"
+              web_icon="base,static/description/icon.png"
+              sequence="10"/>
+    <!-- Sub menu -->
+    <menuitem id="menu_mini_inventory_products"
+              name="Products"
+              parent="menu_mini_inventory_root"
+              action="action_mini_product"   
+              sequence="10"/>
+
+    <menuitem id="menu_mini_inventory_locations"
+              name="Locations"
+              parent="menu_mini_inventory_root"
+              action="action_mini_location"  
+              sequence="20"/>
+
+    <menuitem id="menu_mini_inventory_root"
+              name="Mini Inventory"
+              web_icon="base,static/description/icon.png"
+              sequence="10"/>
+
+    <menuitem id="menu_mini_inventory_picking_parent"
+              name="Pickings"
+              parent="menu_mini_inventory_root"
+              sequence="30"/>
+
+    <menuitem id="menu_mini_inventory_picking_all"
+              name="All Transfers"
+              parent="menu_mini_inventory_picking_parent"
+              action="action_mini_picking_all"
+              sequence="10"/>
+
+    <menuitem id="menu_mini_inventory_picking_incoming"
+              name="Incoming"
+              parent="menu_mini_inventory_picking_parent"
+              action="action_mini_picking_incoming"
+              sequence="20"/>
+
+    <menuitem id="menu_mini_inventory_picking_outgoing"
+              name="Outgoing"
+              parent="menu_mini_inventory_picking_parent"
+              action="action_mini_picking_outgoing"
+              sequence="30"/>
+
+    <menuitem id="menu_mini_inventory_picking_internal"
+              name="Internal"
+              parent="menu_mini_inventory_picking_parent"
+              action="action_mini_picking_internal"
+              sequence="40"/>
+</odoo>

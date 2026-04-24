@@ -2,19 +2,17 @@
     'name': 'Mini Inventory',
     'version': '18.0.1.0.0',
     'category': 'Inventory',
-    'summary': 'Mini Inventory',
-    'depends': ['base', 'mail'],
+    'summary': 'Mini inventory module for learning Odoo concepts',
+    'depends': ['base'],
     'data': [
-        'security/todo_task_security.xml',
+        'security/security_groups.xml',
         'security/ir.model.access.csv',
-        #data seed
         'data/location_data.xml',
-        
-        #views
         'views/product_views.xml',
         'views/location_views.xml',
         'views/move_views.xml',
         'views/picking_views.xml',
+        'views/quant_views.xml',
         'views/menu_views.xml',
     ],
     'installable': True,

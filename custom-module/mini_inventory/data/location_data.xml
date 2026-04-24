@@ -1,1 +1,36 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        noupdate="1" means these records are created once on install
+        and never overwritten on module upgrade.
+        These are the 4 "virtual" anchor locations every flow needs.
+    -->
+    <data noupdate="1">
+
+        <record id="location_supplier" model="mini_inventory.location">
+            <field name="name">Vendors</field>
+            <field name="code">SUPPLIER</field>
+            <field name="location_type">supplier</field>
+        </record>
+
+        <record id="location_customer" model="mini_inventory.location">
+            <field name="name">Customers</field>
+            <field name="code">CUSTOMER</field>
+            <field name="location_type">customer</field>
+        </record>
+
+        <record id="location_scrap" model="mini_inventory.location">
+            <field name="name">Scrap</field>
+            <field name="code">SCRAP</field>
+            <field name="location_type">virtual</field>
+        </record>
+
+        <!-- A real internal warehouse the company owns -->
+        <record id="location_main_warehouse" model="mini_inventory.location">
+            <field name="name">Main Warehouse</field>
+            <field name="code">WH-MAIN</field>
+            <field name="location_type">internal</field>
+        </record>
+
+    </data>
+</odoo>
