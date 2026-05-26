@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_inventory_lite_root"
+              name="Inventory Lite"
+              sequence="10"/>
+</odoo>
