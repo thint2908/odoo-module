@@ -1,4 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <odoo>
+    <record id="view_inventory_product_list" model="ir.ui.view">
+        <field name="name">inventory.product.list</field>
+        <field name="model">inventory.product</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="cost_price"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_inventory_product_form" model="ir.ui.view">
+        <field name="name">inventory.product.form</field>
+        <field name="model">inventory.product</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="cost_price"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
     <record id="action_inventory_product" model="ir.actions.act_window">
         <field name="name">Products</field>
         <field name="res_model">inventory.product</field>
