@@ -8,6 +8,8 @@
         "security/ir.model.access.csv",
         "views/inventory_menu_views.xml",
         "views/inventory_product_views.xml",
+        "views/inventory_location_views.xml",
+        "views/inventory_quant_views.xml"
         ],
     "installable": True,
     "application": True,

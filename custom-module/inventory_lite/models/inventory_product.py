@@ -7,3 +7,7 @@ class InventoryProduct(models.Model):
 
     name = fields.Char(required=True)
     code = fields.Char()
+    active = fields.Boolean(default=True)
+    cost_price = fields.Float(string='Cost price')
+    
+    
