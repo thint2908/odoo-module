@@ -12,7 +12,7 @@ class InventoryPicking(models.Model):
         ('internal', "Internal")
     ], string="Operation Type", required=True)
 
-    src_location_id = fields.Many2one('inventory.location', string="From location", required=True)
+    source_location_id = fields.Many2one('inventory.location', string="From location", required=True)
     dest_location_id = fields.Many2one('inventory.location', string="To location", required=True)
 
     move_ids = fields.One2many('inventory.move','picking_id', string="Stock moves")

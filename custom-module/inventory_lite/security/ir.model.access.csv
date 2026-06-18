@@ -2,3 +2,5 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_inventory_product,access.inventory.product,model_inventory_product,,1,1,1,1
 access_inventory_location,access.inventory.location,model_inventory_location,,1,1,1,1
 access_inventory_quant,access.inventory.quant,model_inventory_quant,,1,1,1,1
+access_inventory_move,access.inventory.move,model_inventory_move,,1,1,1,1
+access_inventory_picking,access.inventory.picking,model_inventory_picking,,1,1,1,1
