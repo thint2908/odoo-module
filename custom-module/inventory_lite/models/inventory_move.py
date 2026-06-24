@@ -7,6 +7,7 @@ class InventoryMove(models.Model):
     _name = 'inventory.move'
     _description = 'Inventory Move'
 
+    name = fields.Char(default="New", readonly=True, string="Reference", required=True, copy=False)
     product_id = fields.Many2one('inventory.product', string="Product ID", required=True, ondelete='cascade')
     source_location_id = fields.Many2one('inventory.location', string="Location ID", required=True, ondelete='cascade')
     dest_location_id = fields.Many2one('inventory.location', string="Destination ID", required=True, ondelete='cascade')
@@ -24,6 +25,14 @@ class InventoryMove(models.Model):
                 raise ValidationError(
                     "Quantity must be greater than 0."
                 )
+                
+    @api.model
+    def create(self, vals):
+        if vals.get("name", "New") == "New":
+            vals["name"] = self.env["ir.sequence"].next_by_code(
+                "inventory.move"
+            ) or "New"
+        return super().create(vals)
                 
                 
     # ACTION 
