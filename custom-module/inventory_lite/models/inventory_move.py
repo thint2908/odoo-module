@@ -26,6 +26,18 @@ class InventoryMove(models.Model):
                     "Quantity must be greater than 0."
                 )
                 
+    @api.constrains("source_location_id", "dest_location_id")
+    def _check_loctions(self):
+        for move in self:
+            if move.source_location_id == move.dest_location_id:
+                raise ValidationError("Source Location and Destination Location must be different.")
+            
+            source_usage = move.source_location_id.usage
+            dest_usage = move.dest_location_id.usage
+            
+            if source_usage in ["vendor", "customer"] and dest_usage in ["vendor", "customer"]:
+                raise ValidationError("Source and Destinatino Locations can not Vendor or Customer")
+                
     @api.model
     def create(self, vals):
         if vals.get("name", "New") == "New":
