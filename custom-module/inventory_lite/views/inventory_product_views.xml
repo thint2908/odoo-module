@@ -9,6 +9,7 @@
                 <field name="name"/>
                 <field name="code"/>
                 <field name="cost_price"/>
+                <field name="qty_available"/>
                 <field name="active"/>
             </list>
         </field>
@@ -24,6 +25,7 @@
                         <field name="name"/>
                         <field name="code"/>
                         <field name="cost_price"/>
+                        <field name="qty_available"/>
                         <field name="active"/>
                     </group>
                 </sheet>

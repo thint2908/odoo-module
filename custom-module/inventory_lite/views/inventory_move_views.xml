@@ -7,11 +7,15 @@
         <field name="model">inventory.move</field>
         <field name="arch" type="xml">
             <list>
+                <field name="name"/>
                 <field name="product_id"/>
                 <field name="source_location_id"/>
                 <field name="dest_location_id"/>
                 <field name="quantity"/>
-                <field name="state"/>
+                <field name="state"
+                        decoration-success="state == 'done'"
+                        decoration-warning="state == 'draft'"
+                        widget="badge"/>
             </list>
         </field>
     </record>
@@ -40,6 +44,7 @@
 
                 <sheet>
                     <group>
+                        <field name="name"/>
                         <field name="product_id"/>
                         <field name="source_location_id"/>
                         <field name="dest_location_id"/>
