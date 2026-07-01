@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
+    <!-- MOVE SEQUENCE -->
     <record id="seq_inventory_move" model="ir.sequence">
         <field name="name">Inventory Move</field>
         <field name="code">inventory.move</field>
         <field name="prefix">MOVE</field>
+        <field name="padding">5</field>
+    </record>
+
+    <!-- PICKING SEQUENCE -->
+    <record id="seq_inventory_picking" model="ir.sequence">
+        <field name="name">Inventory Picking</field>
+        <field name="code">inventory.picking</field>
+        <field name="prefix">PICK</field>
         <field name="padding">5</field>
     </record>
 

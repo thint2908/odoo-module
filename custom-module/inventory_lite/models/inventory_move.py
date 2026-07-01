@@ -16,7 +16,7 @@ class InventoryMove(models.Model):
         ("draft", "Draft"),("done", "Done")
         ], string="State", default="draft", required=True)
     
-    picking_id = fields.Many2one('inventory.picking')
+    picking_id = fields.Many2one('inventory.picking', string="Picking", ondelete="cascade")
     
     @api.constrains('quantity')
     def check_quantity(self):

@@ -1,3 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+    <!-- List View -->
+    <record id="view_inventory_picking_list" model="ir.ui.view">
+        <field name="name">inventory.picking.list</field>
+        <field name="model">inventory.picking</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="picking_type"/>
+                <field name="source_location_id"/>
+                <field name="dest_location_id"/>
+                <field name="move_ids"/>
+                <field name="state"
+                        decoration-danger="state == 'cancelled'"
+                        decoration-primary="state == 'confirmed'"
+                        decoration-success="state == 'done'"
+                        decoration-warning="state == 'draft'"
+                        widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_inventory_picking_form" model="ir.ui.view">
+        <field name="name">inventory.picking.form</field>
+        <field name="model">inventory.picking</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+
+                    <!-- <button
+                        name="action_done"
+                        type="object"
+                        string="Done"
+                        invisible="state == 'done'"
+                    /> -->
+
+                    <field
+                        name="state"
+                        widget="statusbar"
+                    />
+
+                </header>
+
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="picking_type"/>
+                        <field name="source_location_id"/>
+                        <field name="dest_location_id"/>
+                        <field name="state"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_inventory_picking" model="ir.actions.act_window">
+        <field name="name">Picking</field>
+        <field name="res_model">inventory.picking</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+     <!-- Menu -->
+    <menuitem
+        id="menu_inventory_picking"
+        name="Picking"
+        parent="menu_inventory_lite_root"
+        action="action_inventory_picking"
+        sequence="30"
+    />
 </odoo>
